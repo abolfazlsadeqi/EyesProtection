@@ -1,8 +1,6 @@
 # Eyes protection
 It is just a simple software that inform you each 10 minutes that this time is to take the rest of your eyes
 
-(windows users must run via --dialogly)
-
 #you can change the working time by the following syntax(default : 600 (10 min))
 
 	syntax:
@@ -23,3 +21,4 @@ It is just a simple software that inform you each 10 minutes that this time is t
 		java -jar timer.jar -d delay
 	example:
 		java -jar timer.jar -d 1
+#you can using the dialog instead notification by using the --dialogly (this option just for linux users and others can't have notification there fore this software using dialog automatically)

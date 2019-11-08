@@ -18,6 +18,8 @@ public class App {
 	private static final String SHOW_DIALOG_FLAG = "--dialogly";
 	private static boolean isShowDialog = false;
 	
+	private static final String OS_NAME = System.getProperty("os.name");
+	
 	private App(String[] args) {
 		try {
 			//CONFIGURE THE ARGUMENTS
@@ -49,14 +51,18 @@ public class App {
 				}
 			}
 			
+			if(!OS_NAME.contains("inux")) {//IF IT ISN'T A LINUX
+				isShowDialog = true;
+			}
+			
 			while(true) {
 				Thread.sleep(timeToDelay);//WAIT UNTIL DELAY TIME TO SHOW THE NOTIFICATION
 				
-				Runtime runtime = Runtime.getRuntime();//EXECUTE THE SHOW NOTIFICATION COMMAND
-				runtime.exec("notify-send this-time-to-take-a-rest-to-your-eyes");
-				
 				if(isShowDialog) {
 					JOptionPane.showMessageDialog(null, "this time to take a rest to your eyes");
+				}else {
+					Runtime runtime = Runtime.getRuntime();//EXECUTE THE SHOW NOTIFICATION COMMAND
+					runtime.exec("notify-send this-time-to-take-a-rest-to-your-eyes");
 				}
 				
 				for(int i=0; i<numberOfPartsOfRestFlag; i++) {//WAIT FOR NUMBER_OF_PLAYED_SOUNDS_AFTER_DELAY * DELAY_TIME_FOR_EACH_SOUND
