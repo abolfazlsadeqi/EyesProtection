@@ -23,4 +23,4 @@ It is just a simple software that inform you each 10 minutes that this time is t
 		java -jar timer.jar -d 1
 #you can using the dialog instead notification by using the --dialogly (this option just for linux users and others can't have notification there fore this software using dialog automatically)
 
-#linux users can use it for ever without run the commands!,just write java -jar --generate (once) ,afterward you can see it is work when you are restart your computer without run the command.In addition after write the java -jar --generate you don't need the timer.jar you can delete it.
+#linux and windows users can use it for ever without run the commands!,just write java -jar --generate (once) ,afterward you can see it is work when you are restart your computer without run the command.In addition after write the java -jar --generate you don't need the timer.jar you can delete it.

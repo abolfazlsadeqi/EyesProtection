@@ -1,7 +1,5 @@
 package io.applications.timer;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
@@ -10,6 +8,11 @@ import javax.swing.JOptionPane;
 import javazoom.jl.player.Player;
 
 public class App {
+	
+	/*TODO
+	 * 1.FIND A BETTER WAY TO RECOGNIZE ROOT (EXCEPTIONS => a user that named mamadroot or adminestrator in windows) AND PLACED THAT INTO A METHOD
+	 * 2.WRITE THE CORRECT PATHES INTO WINDOWS JAR FILE DESTINATION
+	 */
 
 	private final static String WORKING_TIME_FLAG = "-t";// TIME FLAG ARGUMENT
 	private static int timeToDelay = 10 * 60 * 1000;// TIME FOR DELAY DEFAULT 10 MINUTES (10 * 60 * 1000)
@@ -32,7 +35,8 @@ public class App {
 	private static String argumetnsToRunAutomatically = "";
 	private static final String SHELL_SCRIPT_FILE_PATH = "/etc/profile.d/timer.sh";
 	private static final String JAR_FILE_NAME = "timer.jar";
-	private static final String DESTINATION_JAR_FILE_PATH = "/etc/"+JAR_FILE_NAME;
+	private static final String DESTINATION_JAR_FILE_PATH_FOR_LINUX = "/etc/"+JAR_FILE_NAME;
+	private static final String WINDOWS_JAR_FILE_DESTINATION = "c://"+JAR_FILE_NAME;
 	private static final String CMD_TO_RUN_TIMER = "java -jar /etc/timer.jar ";
 	
 	private static final String VERSION_FLAG = "--version";
@@ -126,21 +130,33 @@ public class App {
 	//MAKE A .SH FILE AND COPY JAR FILE INTO /ETC FOLDER OF LINUX
 	private void generate() {
 		try {
-			//GENERATE .SH FILE
-			String content = CMD_TO_RUN_TIMER+argumetnsToRunAutomatically;
-			FileOutputStream fos = new FileOutputStream(SHELL_SCRIPT_FILE_PATH);
-			fos.write(content.getBytes());
-			fos.close();
-			//COPY THE TIMER.JAR INTO /ETC/TIMER.JAR
-			//READ
-			InputStream timerIn = getClass().getResourceAsStream(JAR_FILE_NAME);
-			byte[] bytesOfJarFile = new byte[timerIn.available()];
-			timerIn.read(bytesOfJarFile);
-			timerIn.close();
-			//WRITE
-			fos = new FileOutputStream(DESTINATION_JAR_FILE_PATH);
-			fos.write(bytesOfJarFile);
-			fos.close();
+			if(OS_NAME.contains(LINUX_OSS_SAME_NAME)) {
+				//GENERATE .SH FILE
+				String content = CMD_TO_RUN_TIMER+argumetnsToRunAutomatically;
+				FileOutputStream fos = new FileOutputStream(SHELL_SCRIPT_FILE_PATH);
+				fos.write(content.getBytes());
+				fos.close();
+				//COPY THE TIMER.JAR INTO /ETC/TIMER.JAR
+				//READ
+				InputStream timerIn = getClass().getResourceAsStream(JAR_FILE_NAME);
+				byte[] bytesOfJarFile = new byte[timerIn.available()];
+				timerIn.read(bytesOfJarFile);
+				timerIn.close();
+				//WRITE
+				fos = new FileOutputStream(DESTINATION_JAR_FILE_PATH_FOR_LINUX);
+				fos.write(bytesOfJarFile);
+				fos.close();
+			}else {
+				//READ
+				InputStream timerIn = getClass().getResourceAsStream(JAR_FILE_NAME);
+				byte[] bytesOfJarFile = new byte[timerIn.available()];
+				timerIn.read(bytesOfJarFile);
+				timerIn.close();
+				//WRITE
+				FileOutputStream fos = new FileOutputStream(WINDOWS_JAR_FILE_DESTINATION);
+				fos.write(bytesOfJarFile);
+				fos.close();
+			}
 			//SHOW THE SUCCESSFUL MESSAGE
 			System.out.println("finished!");
 		} catch (Exception e) {
