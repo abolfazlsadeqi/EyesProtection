@@ -34,6 +34,9 @@ public class App {
 	private static final String JAR_FILE_NAME = "timer.jar";
 	private static final String DESTINATION_JAR_FILE_PATH = "/etc/"+JAR_FILE_NAME;
 	private static final String CMD_TO_RUN_TIMER = "java -jar /etc/timer.jar ";
+	
+	private static final String VERSION_FLAG = "--version";
+	private static final String VERSION = "1.2.1";
 
 	private App(String[] args) {
 		try {
@@ -82,6 +85,12 @@ public class App {
 					}
 					generate();
 					System.exit(0);//CLOSE THE PROGRAM
+				}
+				
+				//VERSION FLAG
+				if(args[i].equalsIgnoreCase(VERSION_FLAG)) {
+					System.out.println(VERSION);
+					System.exit(0);
 				}
 			}
 
