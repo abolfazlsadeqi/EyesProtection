@@ -42,8 +42,9 @@ public class App {
 		try {
 			// CONFIGURE THE ARGUMENTS
 			for (int i = 0; i < args.length; i++) {
+				String currentArg = args[i].toLowerCase();//AFTERWARD USING EQUALS INSTEAD OF EQUALSIGNORECASE
 				// SETUP THE WORKING TIME FLAG
-				if (args[i].equalsIgnoreCase(WORKING_TIME_FLAG)) {// IF WE HAVE THE TIME ARGUMENT
+				if (currentArg.equals(WORKING_TIME_FLAG)) {// IF WE HAVE THE TIME ARGUMENT
 					if (args.length > i + 1) {// IF WE HAVE ANOTHER ONE INDEX
 						timeToDelay = Integer.parseInt(args[i + 1]) * 1000;// GET THE NEXT INDEX AS TIME TO DELAY # PER
 																			// SECOND
@@ -51,26 +52,26 @@ public class App {
 				}
 
 				// SETUP THE NUMBER OF PART OF REST FLAG
-				if (args[i].equalsIgnoreCase(NUMBER_OF_PARTS_FOR_REST_FLAG)) {
+				if (currentArg.equals(NUMBER_OF_PARTS_FOR_REST_FLAG)) {
 					if (args.length > i + 1) {
 						numberOfPartsOfRestFlag = Integer.parseInt(args[i + 1]);
 					}
 				}
 
 				// SETUP THE DELAY FOR EACH PART OF REST TIME
-				if (args[i].equalsIgnoreCase(REST_DEALY_FOR_EACH_PART_FLAG)) {
+				if (currentArg.equals(REST_DEALY_FOR_EACH_PART_FLAG)) {
 					if (args.length > i + 1) {
 						delayForEachPartOfRestTime = Integer.parseInt(args[i + 1]) * 1000;
 					}
 				}
 
 				// SETUP TO SHOW DIALOG FRAME
-				if (args[i].equalsIgnoreCase(SHOW_DIALOG_FLAG)) {
+				if (currentArg.equals(SHOW_DIALOG_FLAG)) {
 					isShowDialog = true;// WHEN USE THIS FLAG USING THE DIALOG TO INFROM STARTING
 				}
 
 				// GENERATE FLAG
-				if (args[i].equalsIgnoreCase(GENERATE_FLAG)) {
+				if (currentArg.equals(GENERATE_FLAG)) {
 					if (args.length > i + 1) {// IF THE USER DEFINED THE ARGUMENTS FOR RUN
 						String nextArg = args[i + 1].toLowerCase();// OPTIMIZING INSTEAD OF USING EQUALSIGNORECASE USING EQUALS
 						if (!nextArg.equals(GENERATE_FLAG)) {// IF NEXT ARGUMENT ISN'T GENERATE FLAG (OTHERWISE IT IS A BUG)
@@ -88,7 +89,7 @@ public class App {
 				}
 				
 				//VERSION FLAG
-				if(args[i].equalsIgnoreCase(VERSION_FLAG)) {
+				if(currentArg.equals(VERSION_FLAG)) {
 					System.out.println(VERSION);
 					System.exit(0);
 				}
