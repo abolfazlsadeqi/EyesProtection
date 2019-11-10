@@ -31,7 +31,7 @@ public class App {
 	private static final String JAR_FILE_NAME = "timer.jar";
 	private static final String DESTINATION_JAR_FILE_PATH_FOR_LINUX = "/etc/"+JAR_FILE_NAME;
 	private static final String WINDOWS_JAR_FILE_DESTINATION = System.getProperty("user.home")+"/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"+JAR_FILE_NAME;
-	private static final String CMD_TO_RUN_TIMER = "java -jar /etc/timer.jar ";
+	private static final String CMD_TO_RUN_TIMER = System.getProperty("java.home")+"/bin/"+"java -jar /etc/timer.jar ";//IN STARTUP MAY BE THE JAVA_HOME OR JAVA NOT RECOGNIZED YET SO WE ARE USE THE CURRENT LIBRARY THAT RUNNED THE APPLICATION AS DEFAULT
 	
 	private static final String VERSION_FLAG = "--version";
 	private static final String VERSION = "1.2.1";
@@ -45,8 +45,7 @@ public class App {
 				// SETUP THE WORKING TIME FLAG
 				if (currentArg.equals(WORKING_TIME_FLAG)) {// IF WE HAVE THE TIME ARGUMENT
 					if (args.length > i + 1) {// IF WE HAVE ANOTHER ONE INDEX
-						timeToDelay = Integer.parseInt(args[i + 1]) * 1000;// GET THE NEXT INDEX AS TIME TO DELAY # PER
-																			// SECOND
+						timeToDelay = Integer.parseInt(args[i + 1]) * 1000;// GET THE NEXT INDEX AS TIME TO DELAY # PER SECOND
 					}
 				}
 
@@ -109,8 +108,7 @@ public class App {
 					runtime.exec("notify-send this-time-to-take-a-rest-to-your-eyes");
 				}
 
-				for (int i = 0; i < numberOfPartsOfRestFlag; i++) {// WAIT FOR NUMBER_OF_PLAYED_SOUNDS_AFTER_DELAY *
-																	// DELAY_TIME_FOR_EACH_SOUND
+				for (int i = 0; i < numberOfPartsOfRestFlag; i++) {// WAIT FOR NUMBER_OF_PLAYED_SOUNDS_AFTER_DELAY * DELAY_TIME_FOR_EACH_SOUND
 					Thread.sleep(delayForEachPartOfRestTime);// WAIT FOR A TIME THEN PLAY
 					// START PLAYING
 					Player player = new Player(getClass().getResourceAsStream(SOUND_NAME));
