@@ -8,12 +8,7 @@ import javax.swing.JOptionPane;
 import javazoom.jl.player.Player;
 
 public class App {
-	
-	/*TODO
-	 * 1.FIND A BETTER WAY TO RECOGNIZE ROOT (EXCEPTIONS => a user that named mamadroot or adminestrator in windows) AND PLACED THAT INTO A METHOD
-	 */
-
-	private final static String WORKING_TIME_FLAG = "-t";// TIME FLAG ARGUMENT
+	private final static String WORKING_TIME_FLAG = "-t";
 	private static int timeToDelay = 10 * 60 * 1000;// TIME FOR DELAY DEFAULT 10 MINUTES (10 * 60 * 1000)
 
 	private final static String NUMBER_OF_PARTS_FOR_REST_FLAG = "-n";
@@ -41,6 +36,7 @@ public class App {
 	private static final String VERSION_FLAG = "--version";
 	private static final String VERSION = "1.2.1";
 
+	//================================>CONSTRUCTOR
 	private App(String[] args) {
 		try {
 			// CONFIGURE THE ARGUMENTS
@@ -81,6 +77,7 @@ public class App {
 							if (!nextArg.equals(WORKING_TIME_FLAG)) {//IF NEXT ARGUMENT "JUST" A WORKING TIME FLAG DON'T USE IT AS ARGUMENT
 								if (!nextArg.equals(NUMBER_OF_PARTS_FOR_REST_FLAG)) {//LIKE ABOVE
 									if (!nextArg.equals(REST_DEALY_FOR_EACH_PART_FLAG)) {//LIKE ABOVE
+										// I DONT WRITE THE DIALOGLY BECAUSE MAYBE THE ONLY ARGUMENT FOR GENERATE IS --DIALOGLY AND IT'S MAY BE A BUG TO DON'T ADDING IT
 										argumetnsToRunAutomatically = nextArg;//USE IT AS ARGUMENTS TO RUN
 									}
 								}
@@ -162,7 +159,8 @@ public class App {
 			e.printStackTrace();
 		}
 	}
-
+	
+	//=======================>MAIN METHOD OF PROGRAM
 	public static void main(String[] args) {
 		new App(args);
 	}
