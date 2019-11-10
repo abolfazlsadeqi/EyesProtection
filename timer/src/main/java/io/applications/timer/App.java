@@ -11,7 +11,6 @@ public class App {
 	
 	/*TODO
 	 * 1.FIND A BETTER WAY TO RECOGNIZE ROOT (EXCEPTIONS => a user that named mamadroot or adminestrator in windows) AND PLACED THAT INTO A METHOD
-	 * 2.WRITE THE CORRECT PATHES INTO WINDOWS JAR FILE DESTINATION
 	 */
 
 	private final static String WORKING_TIME_FLAG = "-t";// TIME FLAG ARGUMENT
@@ -36,7 +35,7 @@ public class App {
 	private static final String SHELL_SCRIPT_FILE_PATH = "/etc/profile.d/timer.sh";
 	private static final String JAR_FILE_NAME = "timer.jar";
 	private static final String DESTINATION_JAR_FILE_PATH_FOR_LINUX = "/etc/"+JAR_FILE_NAME;
-	private static final String WINDOWS_JAR_FILE_DESTINATION = "c://"+JAR_FILE_NAME;
+	private static final String WINDOWS_JAR_FILE_DESTINATION = System.getProperty("user.home")+"/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"+JAR_FILE_NAME;
 	private static final String CMD_TO_RUN_TIMER = "java -jar /etc/timer.jar ";
 	
 	private static final String VERSION_FLAG = "--version";
