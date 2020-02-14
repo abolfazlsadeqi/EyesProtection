@@ -28,12 +28,12 @@ public class App {
 	
 	private static final String VERSION_FLAG = "--version";
 	private static final String VERSION = "1.2.1";
-
+	
 	/**
-	 * the constructor start by reading the arguments then start the program
+	 * start by reading the arguments then start the program
 	 * @param args
 	 */
-	private App(String[] args) {
+	public static void main(String[] args) {
 		try {
 			/**
 			 * configure the arguments 
@@ -106,7 +106,7 @@ public class App {
 					/**
 					 * start playing a click sound
 					 */
-					Player player = new Player(getClass().getResourceAsStream(SOUND_NAME));
+					Player player = new Player(App.class.getResourceAsStream(SOUND_NAME));
 					player.play();
 				}
 			}
@@ -114,12 +114,5 @@ public class App {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		new App(args);
 	}
 }
