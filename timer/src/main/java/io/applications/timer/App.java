@@ -1,8 +1,5 @@
 package io.applications.timer;
 
-import java.io.FileOutputStream;
-import java.io.InputStream;
-
 import javax.swing.JOptionPane;
 
 import javazoom.jl.player.Player;
@@ -24,14 +21,6 @@ public class App {
 	private static final String LINUX_OSS_SAME_NAME = "inux";
 	
 	private static final String SOUND_NAME = "1.mp3";
-
-	private static final String GENERATE_FLAG = "--generate";
-	private static String argumetnsToRunAutomatically = "";
-	private static final String SHELL_SCRIPT_FILE_PATH = "/etc/profile.d/timer.sh";
-	private static final String JAR_FILE_NAME = "timer.jar";
-	private static final String DESTINATION_JAR_FILE_PATH_FOR_LINUX = "/etc/"+JAR_FILE_NAME;
-	private static final String WINDOWS_JAR_FILE_DESTINATION = System.getProperty("user.home")+"/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"+JAR_FILE_NAME;
-	private static final String CMD_TO_RUN_TIMER = System.getProperty("java.home")+"/bin/"+"java -jar /etc/timer.jar ";//IN STARTUP MAY BE THE JAVA_HOME OR JAVA NOT RECOGNIZED YET SO WE ARE USE THE CURRENT LIBRARY THAT RUNNED THE APPLICATION AS DEFAULT
 	
 	private static final String VERSION_FLAG = "--version";
 	private static final String VERSION = "1.2.1";
@@ -67,25 +56,6 @@ public class App {
 				if (currentArg.equals(SHOW_DIALOG_FLAG)) {
 					isShowDialog = true;// WHEN USE THIS FLAG USING THE DIALOG TO INFROM STARTING
 				}
-
-				// GENERATE FLAG
-				if (currentArg.equals(GENERATE_FLAG)) {
-					if (args.length > i + 1) {// IF THE USER DEFINED THE ARGUMENTS FOR RUN
-						String nextArg = args[i + 1].toLowerCase();// OPTIMIZING INSTEAD OF USING EQUALSIGNORECASE USING EQUALS
-						if (!nextArg.equals(GENERATE_FLAG)) {// IF NEXT ARGUMENT ISN'T GENERATE FLAG (OTHERWISE IT IS A BUG)
-							if (!nextArg.equals(WORKING_TIME_FLAG)) {//IF NEXT ARGUMENT "JUST" A WORKING TIME FLAG DON'T USE IT AS ARGUMENT
-								if (!nextArg.equals(NUMBER_OF_PARTS_FOR_REST_FLAG)) {//LIKE ABOVE
-									if (!nextArg.equals(REST_DEALY_FOR_EACH_PART_FLAG)) {//LIKE ABOVE
-										// I DONT WRITE THE DIALOGLY BECAUSE MAYBE THE ONLY ARGUMENT FOR GENERATE IS --DIALOGLY AND IT'S MAY BE A BUG TO DON'T ADDING IT
-										argumetnsToRunAutomatically = nextArg;//USE IT AS ARGUMENTS TO RUN
-									}
-								}
-							}
-						}
-					}
-					generate();
-					System.exit(0);//CLOSE THE PROGRAM
-				}
 				
 				//VERSION FLAG
 				if(currentArg.equals(VERSION_FLAG)) {
@@ -116,43 +86,6 @@ public class App {
 				}
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	//MAKE A .SH FILE AND COPY JAR FILE INTO /ETC FOLDER OF LINUX
-	private void generate() {
-		try {
-			if(OS_NAME.contains(LINUX_OSS_SAME_NAME)) {
-				//GENERATE .SH FILE
-				String content = CMD_TO_RUN_TIMER+argumetnsToRunAutomatically;
-				FileOutputStream fos = new FileOutputStream(SHELL_SCRIPT_FILE_PATH);
-				fos.write(content.getBytes());
-				fos.close();
-				//COPY THE TIMER.JAR INTO /ETC/TIMER.JAR
-				//READ
-				InputStream timerIn = getClass().getResourceAsStream(JAR_FILE_NAME);
-				byte[] bytesOfJarFile = new byte[timerIn.available()];
-				timerIn.read(bytesOfJarFile);
-				timerIn.close();
-				//WRITE
-				fos = new FileOutputStream(DESTINATION_JAR_FILE_PATH_FOR_LINUX);
-				fos.write(bytesOfJarFile);
-				fos.close();
-			}else {
-				//READ
-				InputStream timerIn = getClass().getResourceAsStream(JAR_FILE_NAME);
-				byte[] bytesOfJarFile = new byte[timerIn.available()];
-				timerIn.read(bytesOfJarFile);
-				timerIn.close();
-				//WRITE
-				FileOutputStream fos = new FileOutputStream(WINDOWS_JAR_FILE_DESTINATION);
-				fos.write(bytesOfJarFile);
-				fos.close();
-			}
-			//SHOW THE SUCCESSFUL MESSAGE
-			System.out.println("finished!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
