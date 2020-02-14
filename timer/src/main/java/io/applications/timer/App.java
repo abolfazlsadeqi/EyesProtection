@@ -4,9 +4,13 @@ import javax.swing.JOptionPane;
 
 import javazoom.jl.player.Player;
 
+/**
+ * this the only class which include whole the codes:)
+ * @author abolfazlsadeqi2001
+ */
 public class App {
 	private final static String WORKING_TIME_FLAG = "-t";
-	private static int timeToDelay = 10 * 60 * 1000;// TIME FOR DELAY DEFAULT 10 MINUTES (10 * 60 * 1000)
+	private static int timeToDelay = 5 * 60 * 1000;/** 5 minutes = 5(minute) * 60(second per minute) * 1000(milliseconds per each second */
 
 	private final static String NUMBER_OF_PARTS_FOR_REST_FLAG = "-n";
 	private static int numberOfPartsOfRestFlag = 10;
@@ -25,62 +29,83 @@ public class App {
 	private static final String VERSION_FLAG = "--version";
 	private static final String VERSION = "1.2.1";
 
-	//================================>CONSTRUCTOR
+	/**
+	 * the constructor start by reading the arguments then start the program
+	 * @param args
+	 */
 	private App(String[] args) {
 		try {
-			// CONFIGURE THE ARGUMENTS
+			/**
+			 * configure the arguments 
+			 */
 			for (int i = 0; i < args.length; i++) {
-				String currentArg = args[i].toLowerCase();//AFTERWARD USING EQUALS INSTEAD OF EQUALSIGNORECASE
-				// SETUP THE WORKING TIME FLAG
-				if (currentArg.equals(WORKING_TIME_FLAG)) {// IF WE HAVE THE TIME ARGUMENT
-					if (args.length > i + 1) {// IF WE HAVE ANOTHER ONE INDEX
-						timeToDelay = Integer.parseInt(args[i + 1]) * 1000;// GET THE NEXT INDEX AS TIME TO DELAY # PER SECOND
+				/** 
+				 * after this using equals instead of 
+				 * equalsIgnoreCase method which include more performance
+				 */
+				String currentArg = args[i].toLowerCase();
+				/** setup the working time */
+				if (currentArg.equals(WORKING_TIME_FLAG)) {/** IF WE HAVE THE TIME ARGUMENT */
+					if (args.length > i + 1) {/** IF WE HAVE ANOTHER ONE INDEX */
+						timeToDelay = Integer.parseInt(args[i + 1]) * 1000;/** GET THE NEXT INDEX AS TIME TO DELAY PER SECOND */
 					}
 				}
 
-				// SETUP THE NUMBER OF PART OF REST FLAG
+				/** setup the number of rest times */
 				if (currentArg.equals(NUMBER_OF_PARTS_FOR_REST_FLAG)) {
 					if (args.length > i + 1) {
 						numberOfPartsOfRestFlag = Integer.parseInt(args[i + 1]);
 					}
 				}
 
-				// SETUP THE DELAY FOR EACH PART OF REST TIME
+				/** setup the delay for each part of rest time */
 				if (currentArg.equals(REST_DEALY_FOR_EACH_PART_FLAG)) {
 					if (args.length > i + 1) {
 						delayForEachPartOfRestTime = Integer.parseInt(args[i + 1]) * 1000;
 					}
 				}
 
-				// SETUP TO SHOW DIALOG FRAME
+				/** setup to show dialog frame */
 				if (currentArg.equals(SHOW_DIALOG_FLAG)) {
-					isShowDialog = true;// WHEN USE THIS FLAG USING THE DIALOG TO INFROM STARTING
+					isShowDialog = true;/** using dialog instead of notification */
 				}
 				
-				//VERSION FLAG
+				/** setup version flag */
 				if(currentArg.equals(VERSION_FLAG)) {
 					System.out.println(VERSION);
 					System.exit(0);
 				}
 			}
 
-			if (!OS_NAME.contains(LINUX_OSS_SAME_NAME)) {// IF IT ISN'T A LINUX USING DIALOG ANYWAY
+			/** 
+			 * if the current operating system isn't a linux using dialog anyway (how ever that the user 
+			 * doesn't use the SHOW_DIALOG_FLAG)
+			 */
+			if (!OS_NAME.contains(LINUX_OSS_SAME_NAME)) {
 				isShowDialog = true;
 			}
 
 			while (true) {
-				Thread.sleep(timeToDelay);// WAIT UNTIL DELAY TIME TO SHOW THE NOTIFICATION
+				Thread.sleep(timeToDelay);/** wait while the working time finish */
 
-				if (isShowDialog) {
+				if (isShowDialog) {/** show a dialog */
 					JOptionPane.showMessageDialog(null, "this time to take a rest to your eyes");
 				} else {
-					Runtime runtime = Runtime.getRuntime();// EXECUTE THE SHOW NOTIFICATION COMMAND
+					Runtime runtime = Runtime.getRuntime();/** execute the show notification command */
 					runtime.exec("notify-send this-time-to-take-a-rest-to-your-eyes");
 				}
 
-				for (int i = 0; i < numberOfPartsOfRestFlag; i++) {// WAIT FOR NUMBER_OF_PLAYED_SOUNDS_AFTER_DELAY * DELAY_TIME_FOR_EACH_SOUND
-					Thread.sleep(delayForEachPartOfRestTime);// WAIT FOR A TIME THEN PLAY
-					// START PLAYING
+				/**
+				 * wait for NUMBER_OF_PLAYED_SOUNDS_AFTER_DELAY * DELAY_TIME_FOR_EACH_SOUND
+				 */
+				for (int i = 0; i < numberOfPartsOfRestFlag; i++) {
+					/**
+					 * wait for a part of resting time
+					 */
+					Thread.sleep(delayForEachPartOfRestTime);
+					/**
+					 * start playing a click sound
+					 */
 					Player player = new Player(getClass().getResourceAsStream(SOUND_NAME));
 					player.play();
 				}
@@ -91,7 +116,9 @@ public class App {
 		}
 	}
 	
-	//=======================>MAIN METHOD OF PROGRAM
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		new App(args);
 	}
