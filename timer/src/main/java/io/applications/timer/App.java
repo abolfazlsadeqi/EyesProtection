@@ -92,7 +92,7 @@ public class App {
 					JOptionPane.showMessageDialog(null, "this time to take a rest to your eyes");
 				} else {
 					Runtime runtime = Runtime.getRuntime();/** execute the show notification command */
-					runtime.exec("notify-send this-time-to-take-a-rest-to-your-eyes");
+					runtime.exec("notify-send time-to-rest-your-eyes");
 				}
 
 				/**
