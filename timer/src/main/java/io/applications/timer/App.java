@@ -1,8 +1,6 @@
 package io.applications.timer;
 
 import java.io.InputStream;
-import java.util.List;
-import java.util.stream.Stream;
 
 import javax.swing.JOptionPane;
 
@@ -100,9 +98,7 @@ public class App {
 			for (byte b : bytes) {
 				body += (char)b;
 			}
-			System.out.println(body);
-			anotherProcessInExec = body.contains("Timer.jar");
-			System.out.println(anotherProcessInExec);
+			anotherProcessInExec = body.lastIndexOf("Timer.jar") != body.indexOf("Timer.jar");
 			// exit or run according to anotherProcessInExec
 			if(!anotherProcessInExec) {
 				while (true) {
