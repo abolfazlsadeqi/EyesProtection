@@ -1,5 +1,9 @@
 package io.applications.timer;
 
+import java.io.InputStream;
+import java.util.List;
+import java.util.stream.Stream;
+
 import javax.swing.JOptionPane;
 
 import javazoom.jl.player.Player;
@@ -85,30 +89,49 @@ public class App {
 				isShowDialog = true;
 			}
 
-			while (true) {
-				Thread.sleep(timeToDelay);/** wait while the working time finish */
+			// if there isn't any timer.jar run it (using jps command)
+			boolean anotherProcessInExec = false;
+			
+			Runtime jpsProcess = Runtime.getRuntime();
+			Process jpsProcessResult = jpsProcess.exec("jps");
+			InputStream in = jpsProcessResult.getInputStream();
+			byte[] bytes = in.readAllBytes();
+			String body = "";
+			for (byte b : bytes) {
+				body += (char)b;
+			}
+			System.out.println(body);
+			anotherProcessInExec = body.contains("Timer.jar");
+			System.out.println(anotherProcessInExec);
+			// exit or run according to anotherProcessInExec
+			if(!anotherProcessInExec) {
+				while (true) {
+					Thread.sleep(timeToDelay);/** wait while the working time finish */
 
-				if (isShowDialog) {/** show a dialog */
-					JOptionPane.showMessageDialog(null, "this time to take a rest to your eyes");
-				} else {
-					Runtime runtime = Runtime.getRuntime();/** execute the show notification command */
-					runtime.exec("notify-send time-to-rest-your-eyes");
-				}
+					if (isShowDialog) {/** show a dialog */
+						JOptionPane.showMessageDialog(null, "this time to take a rest to your eyes");
+					} else {
+						Runtime runtime = Runtime.getRuntime();/** execute the show notification command */
+						runtime.exec("notify-send time-to-rest-your-eyes");
+					}
 
-				/**
-				 * wait for NUMBER_OF_PLAYED_SOUNDS_AFTER_DELAY * DELAY_TIME_FOR_EACH_SOUND
-				 */
-				for (int i = 0; i < numberOfPartsOfRestFlag; i++) {
 					/**
-					 * wait for a part of resting time
+					 * wait for NUMBER_OF_PLAYED_SOUNDS_AFTER_DELAY * DELAY_TIME_FOR_EACH_SOUND
 					 */
-					Thread.sleep(delayForEachPartOfRestTime);
-					/**
-					 * start playing a click sound
-					 */
-					Player player = new Player(App.class.getResourceAsStream(SOUND_NAME));
-					player.play();
+					for (int i = 0; i < numberOfPartsOfRestFlag; i++) {
+						/**
+						 * wait for a part of resting time
+						 */
+						Thread.sleep(delayForEachPartOfRestTime);
+						/**
+						 * start playing a click sound
+						 */
+						Player player = new Player(App.class.getResourceAsStream(SOUND_NAME));
+						player.play();
+					}
 				}
+			}else {
+				System.exit(0);
 			}
 
 		} catch (Exception e) {
