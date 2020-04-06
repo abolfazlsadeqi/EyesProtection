@@ -1,2 +1,5 @@
 /.metadata/
 timer/target
+timer/.classpath
+timer/.project
+timer/.settings/
